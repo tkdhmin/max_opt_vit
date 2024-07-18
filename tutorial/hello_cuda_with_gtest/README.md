@@ -2,7 +2,7 @@
 ### Prerequiste
 Make sure that you already have downloaded `googletest` on the external directory in the root of the project.
 ```bash
-pwd # `max_opt_vit` directory.
+pwd # Make sure that the current location is a `max_opt_vit` directory.
 mkdir external
 cd external
 git clone https://github.com/google/googletest.git
