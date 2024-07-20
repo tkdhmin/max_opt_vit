@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.16)
-
 project(HelloAgainCuda LANGUAGES CXX CUDA)
 
 # Set the CUDA standard
@@ -25,7 +23,7 @@ target_link_libraries(my_exec PRIVATE ${CUDA_CUDART_LIBRARY})
 
 # Add Google Test
 # Adjust the path to your actual Google Test location
-add_subdirectory(${CMAKE_SOURCE_DIR}/../../external/googletest ${CMAKE_BINARY_DIR}/googletest)
+add_subdirectory(${CMAKE_SOURCE_DIR}/external/googletest ${CMAKE_BINARY_DIR}/googletest)
 
 # Add the test executable and link with CUDA and Google Test
 add_executable(test_launch_kernel tests/test_launch_kernel.cpp src/hello_cuda.cu)
