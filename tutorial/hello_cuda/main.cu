@@ -7,7 +7,6 @@ __global__ void helloCUDA(void) { printf("Hello CUDA from GPU!\n"); }
 int main(void) {
   printf("Hello GPU from CPU!\n");
   helloCUDA<<<1, 10>>>();
-  cudaDeviceSynchronize(); // Ensure that the GPU code completes before
-                           // exiting
+  cudaDeviceSynchronize(); // Ensure that the GPU code completes before exiting
   return 0;
 }
