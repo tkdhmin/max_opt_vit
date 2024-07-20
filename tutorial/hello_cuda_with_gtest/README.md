@@ -10,6 +10,7 @@ git clone https://github.com/google/googletest.git
 
 ### 1. Create `build` directory
 ```bash
+pwd # Make sure that the current location is a `max_opt_vit` directory.
 mkdir build
 cd build
 ```
@@ -26,9 +27,10 @@ It is also possible to add prefix path to cmake like the following:
 cmake -DCMAKE_PREFIX_PATH=/usr/local/cuda ..
 ```
 
-### 3. Build!
+### 3. Build and go to the binary directory
 ```bash
 cmake --build .
+cd tutorial/hello_cuda_with_gtest
 ```
 
 ### 4. Execute the binary
