@@ -91,6 +91,7 @@ CTestTestfile.cmake
 
 # Ignore Visual Studio files
 CMakeLists.txt.user
+settings.json
 
 # Ignore auto-generated files by CMake
 /_deps/
