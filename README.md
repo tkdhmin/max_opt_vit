@@ -3,6 +3,11 @@ This repo is recapitulating CUDA usage with the help of the gtest and providing 
 
 ###### These two orthogonal project will be split when the project grows.
 
+## Prerequsite
+* GPU and CUDA Toolkit: Check whether your GPU driver has been identified using `nvidia-smi` instruction. You may find way to install the GPU driver suitable to your environment.
+* clang-format: `sudo apt-get install clang-format` is required to format the source code written in C++ and CUDA. And create `.clang-format` file to define the rule of formatting.
+* googletest: Please refer to the `tutorial/hello_cuda_with_gtest/README.md`.
+
 <!-- 
 ## Description
 
