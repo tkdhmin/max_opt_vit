@@ -19,8 +19,8 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "examples"},
-    packages=setuptools.find_packages(where="examples"),
+    package_dir={"": "models"},
+    packages=setuptools.find_packages(where="models"),
     python_requires=">= 3.8",
     install_requires=[
         # external dependencies
@@ -32,6 +32,6 @@ setuptools.setup(
         "pandas              == 1.5.1",
     ],
     extras_require={
-        'dev': ['pytest>=6.0'],
+        "dev": ["pytest>=6.0"],
     },
 )

@@ -1,6 +1,6 @@
 import pytest
 
-from gallery.examples.double_digit import double_digit
+from gallery.example.double_digit import double_digit
 
 
 @pytest.mark.parametrize("input_value, expected_output", [(2, 4), (-3, -6), (2.5, 5.0), (-3.5, -7.0)])
