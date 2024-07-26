@@ -30,6 +30,7 @@ setuptools.setup(
         "nbformat            == 5.6.1",
         "importlib-resources >= 5.9.0",
         "pandas              == 1.5.1",
+        "torch               == 2.4.0",
     ],
     extras_require={
         "dev": ["pytest>=6.0"],

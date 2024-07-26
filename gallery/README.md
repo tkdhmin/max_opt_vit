@@ -11,3 +11,8 @@ pre-commit run
 ```bash
 pip install -e .
 ```
+
+### Run pytest
+```bash
+pytest
+```
