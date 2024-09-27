@@ -2,6 +2,7 @@
 #include "device_launch_parameters.h"
 
 #include <cassert>
+#include <chrono>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -11,8 +12,10 @@
 
 // Simple vector sum gpu kernel
 __global__ void VecAddOnDevice(int *_c, int *_a, int *_b) {
-  int tID = threadIdx.x;
-  _c[tID] = _a[tID] + _b[tID];
+  // int tID = threadIdx.x;
+  int tID = blockIdx.x * blockDim.x + threadIdx.x; // 글로벌 인덱스 계산
+  if (tID < NUM_DATA)
+    _c[tID] = _a[tID] + _b[tID];
 }
 
 /**
@@ -96,7 +99,8 @@ void VecAddOnHost(int *result, const int *vec_a, const int *vec_b, int size) {
 bool CheckVectorEqual(int *vec, int *other, int size) {
   for (int i = 0; i < size; i++) {
     if (vec[i] != other[i]) {
-      std::cout << vec[i] << " != " << other[i] << std::endl;
+      std::cout << vec[i] << " != " << other[i] << " at index " << i
+                << std::endl;
       return false;
     }
   }
@@ -109,18 +113,28 @@ bool CheckVectorEqual(int *vec, int *other, int size) {
  * @return int
  */
 int main() {
+  int *leading_vector = nullptr, *last_vector = nullptr;
   int *a = nullptr, *b = nullptr, *c = nullptr, *h_c = nullptr;
   int *d_a = nullptr, *d_b = nullptr, *d_c = nullptr;
+
+  // Data gen
+  // auto startCPUdatagen = std::chrono::high_resolution_clock::now();
+  HostMemInit(leading_vector, NUM_DATA);
+  HostMemInit(last_vector, NUM_DATA);
+  DataPreFill(leading_vector, NUM_DATA);
+  DataPreFill(last_vector, NUM_DATA);
+  // auto endCPUdatagen = std::chrono::high_resolution_clock::now();
+  // std::chrono::duration<double, std::milli> durationCPUdatagen =
+  // endCPUdatagen - startCPUdatagen; std::cout << "The elapsed time for
+  // generating data: " << durationCPUdatagen.count() << " ms" << std::endl;
 
   // Host-side computation
   // Memory allocation on the host-side
   HostMemInit(a, NUM_DATA);
+  memcpy(a, leading_vector, NUM_DATA * sizeof(int));
   HostMemInit(b, NUM_DATA);
+  memcpy(b, last_vector, NUM_DATA * sizeof(int));
   HostMemInit(h_c, NUM_DATA);
-
-  // Data gen and fill
-  DataPreFill(a, NUM_DATA);
-  DataPreFill(b, NUM_DATA);
 
   VecAddOnHost(h_c, a, b, NUM_DATA);
 
@@ -149,15 +163,19 @@ int main() {
   // Check the integrity of an output.
   bool res = CheckVectorEqual(c, h_c, NUM_DATA);
 
+  std::cout << "Vector Sum Verification: ";
   if (res)
-    std::cout << "GPU works well!" << std::endl;
+    std::cout << "PASS" << std::endl;
   else
-    std::cout << "GPU does not work well..." << std::endl;
+    std::cout << "FAIL" << std::endl;
 
   // Release host memory
   delete[] a;
   delete[] b;
   delete[] c;
+  delete[] leading_vector;
+  delete[] last_vector;
+  delete[] h_c;
 
   return 0;
 }
